@@ -18,6 +18,9 @@ call vundle#begin()
 " Vundle bootstrapping
 Plugin 'VundleVim/Vundle.vim'
 
+" Start screen
+Plugin 'mhinz/vim-startify'
+
 " Airline
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -87,6 +90,9 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-notes'
 
+" Coq Satanism
+Plugin 'let-def/vimbufsync'
+
 call vundle#end()
 
 " -- EDITOR SETTINGS --
@@ -140,6 +146,9 @@ set nobackup
 set nowb
 set noswapfile
 
+" But use viminfo
+set viminfo='100,n/home/haskell/.vim/files/info/viminfo
+
 " Convert tabs to spaces
 set expandtab
 set smarttab
@@ -171,6 +180,17 @@ au BufRead,BufNewFile *.md set filetype=markdown
 " Error messages
 au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%120v.\+', -1)
 
+" Run Startify on new tabs
+au VimEnter * let t:startify_new_tab = 1
+au BufEnter *
+    \ if !exists('t:startify_new_tab') && empty(expand('%')) |
+    \   let t:startify_new_tab = 1 |
+    \   Startify |
+    \ endif
+
+" Map Coq commands
+au FileType coq call coquille#CoqideMapping()
+
 " -- KEYBOARD SHORTCUTS --
 
 " Tabs
@@ -192,6 +212,13 @@ nnoremap <silent> <C-S> :<C-u>Update<CR>
 
 " -- GUI SETTINGS --
 
+" Startify
+let g:startify_fortune_use_unicode = 1
+
+" WebDevIcons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
 " NerdTree
 let g:NERDTreeMinimalUI = 1
 let g:nerdtree_tabs_open_on_console_startup = 1
@@ -206,16 +233,14 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = "\u2717"
 let g:syntastic_warning_symbol = "\uf071"
 
-" WebDevIcons
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
-
 " Syntastic
 hi SyntasticErrorLine ctermbg=161
 hi SyntasticErrorSign ctermbg=161 ctermfg=White cterm=Bold
 hi SyntasticWarningSign ctermbg=178 ctermfg=White cterm=Bold
 
 " Airline
+let g:airline_left_sep = "\ue0b8"
+let g:airline_right_sep = "\ue0ba"
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'violet'
 let g:airline#extensions#syntastic#error_symbol = "\u2717"
