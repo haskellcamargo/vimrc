@@ -194,12 +194,12 @@ nnoremap <silent> <C-S> :<C-u>Update<CR>
 
 " NerdTree
 let g:NERDTreeMinimalUI = 1
-let g:nerdtree_tabs_open_on_console_startup=1
-let g:NERDTreeIgnore=['node_modules', 'dist', 'public', 'coverage']
+let g:nerdtree_tabs_open_on_console_startup = 1
+let g:NERDTreeIgnore = ['node_modules', 'dist', 'public', 'coverage']
 
 " Syntastic
 let g:syntastic_ocaml_checkers = ['merlin']
-let g:syntastic_mode_map={'mode': 'passive'}
+let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
