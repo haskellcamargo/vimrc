@@ -11,6 +11,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
 
+" Add ocp-indent
+set rtp+=/home/haskell/.opam/4.06.0/share/ocp-indent/vim
+
 " -- PLUGINS --
 
 call vundle#begin()
@@ -71,6 +74,8 @@ Plugin 'neovimhaskell/haskell-vim'
 Plugin 'reasonml-editor/vim-reason-plus'
 Plugin 'the-lambda-church/coquille'
 Plugin 'uarun/vim-protobuf'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'Quramy/tsuquyomi'
 
 " Colorschemes
 Plugin 'flazz/vim-colorschemes'
@@ -82,6 +87,7 @@ Plugin 'drewtempelmeyer/palenight.vim'
 Plugin 'ashfinal/vim-colors-violet'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'Yggdroot/duoduo'
+Plugin 'liuchengxu/space-vim-dark'
 
 " Icons
 Plugin 'ryanoasis/vim-devicons'
@@ -98,7 +104,7 @@ call vundle#end()
 " -- EDITOR SETTINGS --
 
 " Use custom separator for inner windows
-set fillchars+=vert:\|
+set fillchars+=vert:│
 
 " i18n and charset
 let lang='en'
@@ -159,8 +165,9 @@ set tabstop=4
 set ww+=<,>
 
 " Color system and scheme
+set t_Co=256
 set termguicolors
-colorscheme palenight
+colorscheme space-vim-dark
 set background=dark
 
 " -- AUTOMATIC COMMANDS --
@@ -190,6 +197,9 @@ au BufEnter *
 
 " Map Coq commands
 au FileType coq call coquille#CoqideMapping()
+
+" Map TypeScript commands
+autocmd FileType typescript nmap <buffer> <Leader>t :<C-u>echo tsuquyomi#hint()<CR>
 
 " -- KEYBOARD SHORTCUTS --
 
@@ -222,7 +232,7 @@ let g:DevIconsEnableFoldersOpenClose = 1
 " NerdTree
 let g:NERDTreeMinimalUI = 1
 let g:nerdtree_tabs_open_on_console_startup = 1
-let g:NERDTreeIgnore = ['node_modules', 'dist', 'public', 'coverage']
+let g:NERDTreeIgnore = ['node_modules', 'public', 'coverage']
 
 " Syntastic
 let g:syntastic_ocaml_checkers = ['merlin']
@@ -256,16 +266,15 @@ hi TabLineSel guibg=#2980B9 guifg=#FFFFFF cterm=Bold
 
 " Highlight current line number
 set cursorline
-hi CursorLineNr cterm=Bold guibg=#333333
 
 " Omit '~'
-highlight NonText ctermfg=bg guifg=bg
+" highlight NonText ctermfg=bg guifg=bg
 
 " Indent guides (with indent line)
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#2C3E50'
-let g:indentLine_concealcursor = 'inc'
-let g:indentLine_conceallevel = 2
+let g:indentLine_color_term = 128
+let g:indentLine_color_gui = '#7E349D'
+let g:indentLine_concealcursor = 0
+"let g:indentLine_conceallevel = 2
 
 " Git gutter symbols and colors
 let g:gitgutter_sign_added = '++'
@@ -292,3 +301,6 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+
+" TypeScript
+let g:tsuquyomi_completion_detail = 1
