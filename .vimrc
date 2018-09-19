@@ -104,7 +104,7 @@ call vundle#end()
 " -- EDITOR SETTINGS --
 
 " Use custom separator for inner windows
-set fillchars+=vert:│
+set fillchars=vert:│
 
 " i18n and charset
 let lang='en'
@@ -173,7 +173,21 @@ set background=dark
 " -- AUTOMATIC COMMANDS --
 
 " Load NerdTree
+" Ensure NERDTree is open
+function! s:isOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Reveal NERDTree file on open it
+function! s:reveal()
+  if &modifiable && s:isOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
 au VimEnter * NERDTree
+au BufEnter * call s:reveal()
 
 " Focus on editor instead of NerdTree
 au VimEnter * wincmd p
@@ -227,12 +241,15 @@ let g:startify_fortune_use_unicode = 1
 
 " WebDevIcons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
 
 " NerdTree
 let g:NERDTreeMinimalUI = 1
 let g:nerdtree_tabs_open_on_console_startup = 1
 let g:NERDTreeIgnore = ['node_modules', 'public', 'coverage']
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+hi NERDTreeOpenable guifg=#27CBC0
+hi NERDTreeClosable guifg=#DA3C78
 
 " Syntastic
 let g:syntastic_ocaml_checkers = ['merlin']
@@ -274,7 +291,7 @@ set cursorline
 let g:indentLine_color_term = 128
 let g:indentLine_color_gui = '#7E349D'
 let g:indentLine_concealcursor = 0
-"let g:indentLine_conceallevel = 2
+let g:indentLine_fileTypeExclude = ['nerdtree']
 
 " Git gutter symbols and colors
 let g:gitgutter_sign_added = '++'
